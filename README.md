@@ -55,5 +55,50 @@ In this first stage, the environment was fully set up to support the real-time w
         ![databricks_test_weateherAPI](https://github.com/user-attachments/assets/6578245d-22f3-4faa-9928-0d7d9f80c9ef)
    
    
-   5. Connect all 3 together: WeatherAPI -> Databricks -> Azure Event Hub
-     
+   5. Connect all WeatherAPI, Databricks and Event Hub  
+      In the final step, the pipeline connects all three components as follows:
+      - Weather API integration
+        - A comprehensive script in Azure Databricks retrieves weather data (current conditions, forecasts, alerts) from the Weather API
+        - The API responses are processed and flattened into a structured JSON format
+      - Databricks Streaming Setup
+        Simulated continuous ingestion process by using Spark Structured Streaming since the Weather API itself isn’t a native streaming source
+        - Created a dummy stream that serves as a trigger to periodically execute the processing logic
+          ```python
+          streaming_df = spark.readStream.format("rate").option("rowsPerSecond", 1).load()
+          ```
+        - Used Micro-Batch Processing with foreachBatch  
+          Spark Structured Streaming processes incoming data in micro-batches where each batch is processed by custom logic
+          ```python
+          query = streaming_df.writeStream.foreachBatch(process_batch).start()
+          ```
+        - Timer mechanism to fetch data every 30 seconds  
+          Despite a micro-batch is triggered every second, continuously querying the Weather API every second is inefficient and unnecessary. To manage this, the **process_batch** function includes a timer check.
+          ```python
+          def process_batch(batch_df, batch_id):
+            global last_sent_time
+            try:
+                # Get current time
+                current_time = datetime.now()
+                
+                # Check if X seconds have passed since last event was sent
+                if (current_time - last_sent_time).total_seconds() >= 30:
+                  # Fetch weather data
+                  weather_data = fetch_weather_data()
+          
+                  # Send the weather data 
+                  send_event(weather_data)
+          
+                  # Update last sent time
+                  last_sent_time = current_time
+                  print(f"Event sent at {last_sent_time}")
+          
+            except Exception as e:
+                print(f"Error sending events {batch_id}: {e}")
+                raise e 
+          ``` 
+         
+
+
+
+
+

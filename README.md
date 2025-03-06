@@ -1,11 +1,10 @@
 # azure-realtime-weather-pipeline
 An end-to-end, real-time weather analytics pipeline on Azure and Microsoft Fabric
 
-### Overview
+## Overview
 This project demonstrates an end-to-end real-time data engineering solution using Azure services and Microsoft Fabric to continuously ingest, process, store, and visualize weather data. It begins by pulling data from a free Weather API, then uses Azure Databricks and Azure Functions for data ingestion into Azure Event Hub. From there, Microsoft Fabric’s real-time intelligence features (Event Stream and Kusto DB) manage the streaming and storage, keeping the Power BI dashboard continuously up-to-date. The project also covers secure credential handling with Azure Key Vault.
 
-### Technologies Used
-
+## Technologies Used
 - Azure
   - Azure Databricks
   - Azure Functions
@@ -17,7 +16,6 @@ This project demonstrates an end-to-end real-time data engineering solution usin
 - Power BI
 
 ## Development
-
 ### Stage 1
 In this first stage, the environment was fully set up to support the real-time weather data pipeline. The key steps included:
 
@@ -95,7 +93,30 @@ In this first stage, the environment was fully set up to support the real-time w
             except Exception as e:
                 print(f"Error sending events {batch_id}: {e}")
                 raise e 
-          ``` 
+          ```
+ 
+ ### Azure Function App
+ The key steps in the development in this alternative approach include:
+ 1. Setting up VS Code to build the data ingestion function on my local machine
+    - Installed the **Azure Functions extension** to enable creating and managing function projects
+    - Linked local development with cloud resources by signing in to my Azure subscription from VS Code
+ 
+ 2. Creating the Function Project  
+    - Selected Python and **Time Trigger with a CRON expression** to run every 30 sec
+    - Let VS code generate the starter template
+ 
+ 3. Adapting the data ingestion code from Databricks
+    - Removed the Spark-specific components (e.g The Spark Structured Streaming)
+    - Replaced the Databricks secret scope access with **Managed Identity** and assigned appropriate roles
+        -  **"Azure Event Hub Data Sender"** role for Event Hub acess
+        -  **"Key Vault Secret User"** role for the Key Vault
+
+ 4. Deployment and testing
+    - Used the Azure Function extention for VS Code to deploy the function to Azure 
+    - Verified the function is correctly deployed and events are successfully sent to the Event Hub every 30 seconds
+      ![function_app_success_deployed](https://github.com/user-attachments/assets/d39f54c6-2b54-435c-9c96-1aa393166430)
+
+    
          
 
 

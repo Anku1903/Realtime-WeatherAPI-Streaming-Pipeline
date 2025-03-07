@@ -118,7 +118,7 @@ In this first stage, the environment was fully set up to support the real-time w
 
 ### Cost Analysis and Architectural Decision
 A careful evaluation of cost and performance factors, led to the decision to proceed with Azure Functions for data ingestion instead of Azure Databricks. Here is the analysis that influenced this decision:
-1. Cost Analysis (based on Azure pricing calculator)
+1. Cost Analysis (based on [Azure pricing calculator estimation](/cost-analysis))
    - Azure Databricks
      - estimated to about $500/month (based on the region, workload, pricing tier and instance type)
    - Azure Functions

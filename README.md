@@ -12,7 +12,7 @@ This project demonstrates an end-to-end real-time data engineering solution usin
   - Azure Key Vault
 - Microsoft Fabric
   - Event Stream
-  - Kusto DB
+  - KQL DB (Kusto DB)
 - Power BI
 
 ## Development
@@ -31,7 +31,7 @@ In this first stage, the environment was fully set up to support the real-time w
  In this stage I explored 2 different approaches for data ingestion - Databricks and Azure Functions.
 
  #### Azure Databricks
- The data ingestion pipeline was built and tested incrementally. The the steps included:
+ The data ingestion pipeline was built and tested incrementally. The steps included:
  1. Intiallized a cluster
  2. Installed **azure-eventhub** on the cluster - an external Python library, not originally provided by Databricks, to enable interation with the Event Hub
  3. Tested the connection between **Databricks** and **Event Hub** by sending simple JSON test events
@@ -148,6 +148,21 @@ In this stage, Microsoft Fabric served as the platform for processing the stream
 4. Publishing and verifying the pipeline
    - Published the Eventstream pipeline, which continuously transfers weather data from the Event Hub to the KQL database
    - Verified the correct data ingestion in the KQL DB by checking data previews
+
+### Reporting & Visualization
+The last development phase leverages Power BI to transform the streaming weather data into an interactive, real-time dashboard. Power BI Desktop was the primary tool here since it offers more flexibility than the online version. The main development steps include:
+1. Establishing the Data Connection with Power BI Desktop
+   - Signed in with my Azure account and provided the necessary details (database name, table name etc.) to connect Power BI to the KQL database
+3. Dashboard development
+   - Used various visuals to display the latest weather metrics
+   - Enhanced data by using DAX
+4. Publishing and Configuring the Report
+   - Uploaded the dashboard to the Power BI service with Fabric
+   - Configured scheduled refresh settings to ensure the report continuously reflects the latest data
+
+ 
+  
+
 
 
 

@@ -116,6 +116,22 @@ In this first stage, the environment was fully set up to support the real-time w
     - Verified the function is correctly deployed and events are successfully sent to the Event Hub every 30 seconds
       ![function_app_success_deployed](https://github.com/user-attachments/assets/d39f54c6-2b54-435c-9c96-1aa393166430)
 
+### Cost Analysis and Architectural Decision
+A careful evaluation of cost and performance factors, led to the decision to proceed with Azure Functions for data ingestion instead of Azure Databricks. Here is the analysis that influenced this decision:
+1. Cost Analysis (based on Azure pricing calculator)
+   - Azure Databricks
+     - estimated to about $500/month (based on the region, workload, pricing tier and instance type)
+   - Azure Functions
+     - Azure Functions under the consumption plan offer 1 million free executions per month
+     - for the given use case (an API call every 30 seconds), Azure Functions generate little to no cost compared to Databricks
+2. Performace consideration  
+   The project doesn't involve any Big Data workload (e.g., aggregating millions of datapoints, complex transfromations). Fetching weather data via an API and sending it to the Event Hub in this pipeline can be considered as simple tasks.
+   - Azure Databricks
+       - more suitable for heavy data transformation that is not required here
+       - we have to create and maintain the infrastructure so if any issues occur we have the responibility to fix them
+   - Azure Funnctions
+       - being serverless, offer quick, efficient execution without the overhead of having to manage infrastructure on our side
+
     
          
 

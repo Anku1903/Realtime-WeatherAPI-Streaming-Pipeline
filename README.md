@@ -16,7 +16,7 @@ This project demonstrates an end-to-end real-time data engineering solution usin
 - Power BI
 
 ## Development
-### Stage 1
+### Initial Setup
 In this first stage, the environment was fully set up to support the real-time weather data pipeline. The key steps included:
 
 - Configuring the Weather API: Signed up for the Weather API, verified the account, and retrieved the API key.
@@ -27,7 +27,7 @@ In this first stage, the environment was fully set up to support the real-time w
   - Azure Event Hub: Provisioned to manage streaming data.
   - Azure Key Vault: Established to securely store sensitive information, including the Weather API key.
 
- ### Stage 2 - Data Ingestion
+ ### Data Ingestion
  In this stage I explored 2 different approaches for data ingestion - Databricks and Azure Functions.
 
  #### Azure Databricks
@@ -95,7 +95,7 @@ In this first stage, the environment was fully set up to support the real-time w
                 raise e 
           ```
  
- ### Azure Function App
+ #### Azure Function App
  The key steps in the development in this alternative approach include:
  1. Setting up VS Code to build the data ingestion function on my local machine
     - Installed the **Azure Functions extension** to enable creating and managing function projects
@@ -116,7 +116,7 @@ In this first stage, the environment was fully set up to support the real-time w
     - Verified the function is correctly deployed and events are successfully sent to the Event Hub every 30 seconds
       ![function_app_success_deployed](https://github.com/user-attachments/assets/d39f54c6-2b54-435c-9c96-1aa393166430)
 
-### Cost Analysis and Architectural Decision
+#### Cost Analysis and Architectural Decision
 A careful evaluation of cost and performance factors, led to the decision to proceed with Azure Functions for data ingestion instead of Azure Databricks. Here is the analysis that influenced this decision:
 1. Cost Analysis (based on [Azure pricing calculator estimation](/cost-analysis))
    - Azure Databricks
@@ -131,6 +131,25 @@ A careful evaluation of cost and performance factors, led to the decision to pro
        - we have to create and maintain the infrastructure so if any issues occur we have the responibility to fix them
    - Azure Funnctions
        - being serverless, offer quick, efficient execution without the overhead of having to manage infrastructure on our side
+
+### Event Processing and Data Loading
+In this stage, Microsoft Fabric served as the platform for processing the streaming events from Azure Event Hub and loading them into a **KQL database** for real-time analysis and reporting 
+1. Workspace and **Eventhouse** creation
+   - Created a dedicated workspace (e.g., "weather-streaming") in **Fabric** for project resources
+   - Within this workspace, created an **Eventhouse** resource which automatically provisions a **KQL database**
+3. Creating and configuring the Event stream pipeline
+   - Source Setup (Event Hub)  
+       - Connected the Event Hub to the Event Stream by creating new Shared Access Policy connection credentials
+       - Selected the default consumer group and set the data format to JSON
+   - Target Setup (Eventhouse)
+       - Selected the Eventhouse as the target destination for the eventstream pipeline
+       - Chose the associated KQL database and created a new destination table (weathertable)
+       - Set the input data format to JSON and selected "event processing before injection" to auto-create the table
+4. Publishing and verifying the pipeline
+   - Published the Eventstream pipeline, which continuously transfers weather data from the Event Hub to the KQL database
+   - Verified the correct data ingestion in the KQL DB by checking data previews
+
+
 
     
          

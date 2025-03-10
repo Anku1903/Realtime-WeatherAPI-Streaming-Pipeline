@@ -116,7 +116,7 @@ A careful evaluation of cost and performance factors led to the decision to proc
    - Azure Functions
      - Azure Functions under the **consumption plan** offer **1 million free executions** per month
      - for the given use case (an API call every 30 seconds), Azure Functions generate little to no cost compared to Databricks  
-   ![cost caclulator azure pricing](screenshots/cost_calculation_azue_pricing _calculator.PNG) 
+![cost caclulator azure pricing](screenshots/azure_pricing_calculator.PNG) 
 2. Performace consideration  
    The project doesn't involve any Big Data workload (e.g., aggregating millions of data points, complex transformations). Fetching weather data via an API and sending it to the Event Hub in this pipeline can be considered as simple tasks.
    - Azure Databricks

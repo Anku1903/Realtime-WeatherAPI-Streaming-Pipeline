@@ -19,7 +19,7 @@ This project demonstrates an end-to-end real-time data engineering solution usin
 ### Initial Setup
 In this first stage, the environment was fully set up to support the real-time weather data pipeline. The key steps included:
 
-- Configuring the Weather API: Signed up for the Weather API, verified the account, and retrieved the API key.
+- Configuring the Weather API: Signed up for the [Weather API](https://www.weatherapi.com/), verified the account, and retrieved the API key.
 - Creating a Resource Group: Set up a dedicated resource group to organize all project components.
 - Deploying Core Azure Services:
   - Azure Databricks Workspace: Created for data ingestion.

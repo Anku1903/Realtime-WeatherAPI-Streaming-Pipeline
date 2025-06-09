@@ -1,4 +1,4 @@
-# Realtime-WeatherAPI-Streaming-Pipeline
+# Realtime WeatherAPI Streaming Pipeline
 
 ## Overview
 This repository contains an Azure-based data engineering pipeline designed to fetch real-time weather data from a public Weather API, process it, store it, and create interactive dashboards for visualization. Additionally, the pipeline includes an alerting mechanism that sends email notifications when critical weather conditions (e.g., extreme temperatures, high winds) are detected. Built using Microsoft Azure services, the project demonstrates a scalable, secure, and efficient architecture for real-time weather data processing and analytics.

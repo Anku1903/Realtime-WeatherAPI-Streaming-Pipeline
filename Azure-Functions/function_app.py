@@ -18,8 +18,8 @@ def weatherapifunction(myTimer: func.TimerRequest) -> None:
 
 
     # Event Hub configuation
-    EVENT_HUB_NAME = "weatherstreamingeventhub"
-    EVENT_HUB_NAMESPACE = "weatherstrmingnamespace.servicebus.windows.net"
+    EVENT_HUB_NAME = "weatherapievents"
+    EVENT_HUB_NAMESPACE = "https://ankur-eventshub.servicebus.windows.net"
 
     # Use Managed Identity of Function App
     credential = DefaultAzureCredential()
@@ -153,9 +153,9 @@ def weatherapifunction(myTimer: func.TimerRequest) -> None:
     # Main function
     def fetch_weather_data():
         base_url = "https://api.weatherapi.com/v1/"
-        location = "Burgas"
+        location = "Mumbai"
 
-        VAULT_URL = "https://kv-weather-strming.vault.azure.net/"
+        VAULT_URL = "https://ankur-key-value.vault.azure.net/"
         API_KEY_SECRET_NAME = "weatherapikey"
         weatherapikey = get_secret_from_keyvault(VAULT_URL, API_KEY_SECRET_NAME)
 
